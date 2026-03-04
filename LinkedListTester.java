@@ -72,5 +72,13 @@ public class LinkedListTester {
         // Clear
         list.clear();
         System.out.println("After clear(), empty? " + list.isEmpty() + ", list: " + list);
+
+        LinkedList<String> stringList = new LinkedList<>();
+        stringList.add("string1");
+        stringList.add("string2");
+        stringList.add("string3");
+
+        System.out.println("String list: " + stringList);
+        System.out.println("String list backwards: " + stringList.toStringBackwards());
     }
 }
