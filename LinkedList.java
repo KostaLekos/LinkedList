@@ -163,6 +163,32 @@ public class LinkedList<T> {
         return false;
     }
 
+    public String toString() {
+        if (head == null) return "";
+        StringBuilder sb = new StringBuilder();
+
+        Node<T> currentNode = head;
+        while (currentNode != null) {
+            sb.append(currentNode.data);
+            if (currentNode.right != null) sb.append(", ");
+            currentNode = currentNode.right;
+        }
+        return sb.toString();
+    }
+
+    public String toStringBackwards() {
+        if (tail == null) return "";
+        StringBuilder sb = new StringBuilder();
+
+        Node<T> currentNode = tail;
+        while (currentNode != null) {
+            sb.append(currentNode.data);
+            if (currentNode.left != null) sb.append(", ");
+            currentNode = currentNode.left;
+        }
+        return sb.toString();
+    }
+
 
 
     ///////////////////////
@@ -223,9 +249,9 @@ public class LinkedList<T> {
 
 
 
-    ///////////////
-    // Traversal //
-    ///////////////
+    //////////////
+    // Shifting //
+    //////////////
     
     public void shiftRight() {
         // empty or 1 element
@@ -269,31 +295,5 @@ public class LinkedList<T> {
         if (num == 0) return;
         num %= size();
         for (int i = 0; i < num; i++) shiftLeft();
-    }
-
-    public String toString() {
-        if (head == null) return "";
-        StringBuilder sb = new StringBuilder();
-
-        Node<T> currentNode = head;
-        while (currentNode != null) {
-            sb.append(currentNode.data);
-            if (currentNode.right != null) sb.append(", ");
-            currentNode = currentNode.right;
-        }
-        return sb.toString();
-    }
-
-    public String toStringBackwards() {
-        if (tail == null) return "";
-        StringBuilder sb = new StringBuilder();
-
-        Node<T> currentNode = tail;
-        while (currentNode != null) {
-            sb.append(currentNode.data);
-            if (currentNode.left != null) sb.append(", ");
-            currentNode = currentNode.left;
-        }
-        return sb.toString();
     }
 }
