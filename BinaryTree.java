@@ -21,6 +21,18 @@ public class BinaryTree<T extends Comparable<T>> {
         return null; // not found
     }
 
+    public boolean contains(T value) {
+        Node<T> current = head;
+
+        while (current != null) {
+            int cmp = value.compareTo(current.data);
+            if (cmp == 0) return true;
+            else if (cmp < 0) current = current.left;
+            else current = current.right;
+        }
+        return false; // not found
+    }
+
     public Node<T> getByPath(String binPath) { // Not recommended
         Node<T> currNode = head;
         for (int i = 0; i < binPath.length(); i++) {
@@ -72,55 +84,50 @@ public class BinaryTree<T extends Comparable<T>> {
     }
 
     public boolean remove(T value) {
-        Node<T> current = head;
-
         if (head == null) return false;
 
-        if (head.data.equals(value)) {
-            if (head.left == null) head = head.right;
-            else if (head.right == null) head = head.left;
-            else {
-                // head has two children, more complex
-                return false; // for now, ignored
-            }
-            return true;
+        Node<T> parent = null;
+        Node<T> current = head;
+
+        // 1. Find the node to remove
+        while (current != null && !current.data.equals(value)) {
+            parent = current;
+            if (value.compareTo(current.data) < 0) current = current.left;
+            else current = current.right;
         }
 
-        while (true) {
-            int cmp = value.compareTo(current.data);
+        if (current == null) return false; // value not found
 
-            if (cmp < 0) {
-                if (current.left == null) return false;
-
-                if (current.left.data.equals(value)) {
-                    // zero or one child
-                    if (current.left.left == null) current.left = current.left.right;
-                    else if (current.left.right == null) current.left = current.left.left;
-                    else {
-                        // two children, more complex
-                        return false; // for now, ignored
-                    }
-                    return true;
-                } else {
-                    current = current.left;
-                }
-
-            } else { // cmp > 0
-                if (current.right == null) return false;
-
-                if (current.right.data.equals(value)) {
-                    // zero or one child
-                    if (current.right.left == null) current.right = current.right.right;
-                    else if (current.right.right == null) current.right = current.right.left;
-                    else {
-                        // two children, more complex
-                        return false; // for now, ignored
-                    }
-                    return true;
-                } else {
-                    current = current.right;
-                }
+        // 2. Node has two children
+        if (current.left != null && current.right != null) {
+            // Find in-order successor (smallest in right subtree)
+            Node<T> succParent = current;
+            Node<T> succ = current.right;
+            while (succ.left != null) {
+                succParent = succ;
+                succ = succ.left;
             }
+
+            // Copy successor's value to current node
+            current.data = succ.data;
+
+            // Now remove successor
+            parent = succParent;
+            current = succ;
         }
+
+        // 3. Node has 0 or 1 child
+        Node<T> child = (current.left != null) ? current.left : current.right;
+
+        if (parent == null) {
+            // Removing the root
+            head = child;
+        } else if (parent.left == current) {
+            parent.left = child;
+        } else {
+            parent.right = child;
+        }
+
+        return true;
     }
 }
