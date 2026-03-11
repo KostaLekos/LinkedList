@@ -21,6 +21,10 @@ public class BinaryTree<T extends Comparable<T>> {
         return null; // not found
     }
 
+    public Node<T> getHead() {
+        return head;
+    }
+
     public boolean contains(T value) {
         Node<T> current = head;
 
@@ -129,5 +133,12 @@ public class BinaryTree<T extends Comparable<T>> {
         }
 
         return true;
+    }
+
+    public void inOrder(Node<T> node) {
+        if (node == null) return;       // base case: nothing to print
+        inOrder(node.left);             // traverse left subtree
+        System.out.print(node.data + " ");  // visit current node
+        inOrder(node.right);            // traverse right subtree
     }
 }
