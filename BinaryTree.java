@@ -132,6 +132,4 @@ public class BinaryTree<T extends Comparable<T>> {
         postOrder(node.right);                // right subtree
         System.out.print(node.data + " ");    // print current
     }
-
-
 }
